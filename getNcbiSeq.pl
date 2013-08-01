@@ -6,7 +6,7 @@ use LWP::Simple;
 use DB_File;
 
 
-my ($inputSeqFile, $outputFolder, $maxSubject, $cut_e_value, $homo_range, $min_size, $max_size) = ('', 'faaOut', 1000, "1e-20", 'F', 0.7, 1.5);
+my ($inputSeqFile, $outputFolder, $maxSubject, $cut_e_value, $homo_range, $min_size, $max_size, $num_cpus) = ('', 'faaOut', 1000, "1e-20", 'F', 0.7, 1.5,1);
 my $options = GetOptions(
 			"i=s" => \$inputSeqFile,
 			"t=s" => \$cut_e_value,
@@ -14,6 +14,7 @@ my $options = GetOptions(
 			"h=s" => \$homo_range,
 			"s=f" => \$min_size,
 			"l=f" => \$max_size,
+			"N=i" => \$num_cpus,
 			);
 
 if (! $inputSeqFile) {
@@ -25,6 +26,7 @@ if (! $inputSeqFile) {
 	print "   -h remain alignment region, [T/F], default F\n";
 	print "   -s minimal sequence size, x time bigger then original sequence, default 0.7\n";
 	print "   -l maximal sequence size, y times small then original sequences, defalut 1.5\n";
+	print "   -N Number of CPUs to use for BLAST searching, default 1\n";
 
 	exit;
 }
@@ -254,9 +256,9 @@ sub Blastcl3 {
 		open (OS,">$tempSeqFile");
 		print OS $sequence;
 		close OS;
-		#my $command = "blastcl3 -i $tempSeqFile -o $tempOutFile -p blastp -d nr -F F -v $maxSubject -b $maxSubject -m8 -e 1e-5";
+		#my $command = "blastcl3 -i $tempSeqFile -o $tempOutFile -p blastp -d /home/blunt/bio/ncbi/db/nr -F F -v $maxSubject -b $maxSubject -m8 -e 1e-5";
 		unless (-s $tempOutFile) {
-			my $command = "blastcl3 -i $tempSeqFile -o $tempOutFile -p blastp -d nr -F F -v $maxSubject -b $maxSubject -m8 -e 1e-5";
+			my $command = "blastall -i $tempSeqFile -o $tempOutFile -p blastp -d /home/blunt/bio/ncbi/db/nr -F F -v $maxSubject -b $maxSubject -m8 -e 1e-5 -a $num_cpus";
 			print "now blasting $name sequence\n";
 			system($command);
 		}
