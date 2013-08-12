@@ -6,7 +6,7 @@ use LWP::Simple;
 use DB_File;
 
 
-my ($inputSeqFile, $outputFolder, $maxSubject, $cut_e_value, $homo_range, $min_size, $max_size, $num_cpus) = ('', 'faaOut', 1000, "1e-20", 'F', 0.7, 1.5,1);
+my ($inputSeqFile, $outputFolder, $maxSubject, $cut_e_value, $homo_range, $min_size, $max_size, $num_cpus, $GLOBAL_BLAST_DB) = ('', 'faaOut', 1000, "1e-20", 'F', 0.7, 1.5,1, "/home/blunt/bio/ncbi/db/nr");
 my $options = GetOptions(
 			"i=s" => \$inputSeqFile,
 			"t=s" => \$cut_e_value,
@@ -15,6 +15,7 @@ my $options = GetOptions(
 			"s=f" => \$min_size,
 			"l=f" => \$max_size,
 			"N=i" => \$num_cpus,
+			"d=s" => \$GLOBAL_BLAST_DB
 			);
 
 if (! $inputSeqFile) {
@@ -27,6 +28,7 @@ if (! $inputSeqFile) {
 	print "   -s minimal sequence size, x time bigger then original sequence, default 0.7\n";
 	print "   -l maximal sequence size, y times small then original sequences, defalut 1.5\n";
 	print "   -N Number of CPUs to use for BLAST searching, default 1\n";
+	print "   -d Blast databaset to use. default: nr\n";
 
 	exit;
 }
@@ -45,43 +47,25 @@ PasteSeqToFiles($blastOutputHashRef, $querySeqHashRef, $cut_e_value, $homo_range
 sub GetNcbiSeq {
 	my ($giArrayRef) = @_;
 	my $NcbiSeqFileName = "NCBIsequence.faaTemp";
+	my $GI_tempfilename = "SEARCH.gis";
 	my $NcbiSeqHashRef = {};
 	if (-e $NcbiSeqFileName) {
 		$NcbiSeqHashRef = SeqFileToHash($NcbiSeqFileName);
-		open (OSS, ">>$NcbiSeqFileName");
-	} else {
-		open (OSS, ">$NcbiSeqFileName");
 	}
+
+	open(GIFILE, ">$GI_tempfilename");
 
 #	my @giArray;
 	foreach my $gi (@$giArrayRef) {
-#		push @giArray, $gi;
-		unless (exists $NcbiSeqHashRef->{$gi}) {
-			my $url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=protein&retmode=text&rettype=fasta&id=$gi";
-			print "Now download gi-$gi sequence\n";
-			my $sequence = get($url);
-			unless ($sequence) { $sequence = get($url)};
-			if ($sequence =~ /Error/) {
-				print "..error to download gi-$gi sequence!!\n";
-				next;
-			} else {
-				$NcbiSeqHashRef->{$gi} = $sequence;
-				print OSS $sequence;
-			}
-		}
+		print GIFILE "$gi\n";
 	}
-#	my $temp;	
-#	for (my $i = 0; $i < (@giArray); $i++) {
-#		$temp .= $giArray[$i] . ',';
-#		if (($i + 1) % 10 == 0 || $i == $#giArray) {
-#			my $url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=protein&retmode=text&rettype=fasta&id=$temp";
-#			my $sequence = get($url);
-#			print "$temp\n";
-#			$temp = '';
-#		}
-#	}
 
-	close OSS;
+	close(GIFILE);
+
+	system("fastacmd -d $GLOBAL_BLAST_DB -i $GI_tempfilename -t T 1>> $NcbiSeqFileName");
+
+	$NcbiSeqHashRef = SeqFileToHash($NcbiSeqFileName);
+
 	return $NcbiSeqHashRef;
 }
 
@@ -109,8 +93,6 @@ sub PasteSeqToFiles{
 			push @$seqBelowFilter, "$gi\t$name\t$e_value\n";
 		}
 	}
-	close OSS;
-
 	
 	open (OR, ">remove.table");
 	open (ORS, ">remove.faa1");
@@ -258,7 +240,7 @@ sub Blastcl3 {
 		close OS;
 		#my $command = "blastcl3 -i $tempSeqFile -o $tempOutFile -p blastp -d /home/blunt/bio/ncbi/db/nr -F F -v $maxSubject -b $maxSubject -m8 -e 1e-5";
 		unless (-s $tempOutFile) {
-			my $command = "blastall -i $tempSeqFile -o $tempOutFile -p blastp -d /home/blunt/bio/ncbi/db/nr -F F -v $maxSubject -b $maxSubject -m8 -e 1e-5 -a $num_cpus";
+			my $command = "blastall -i $tempSeqFile -o $tempOutFile -p blastp -d $GLOBAL_BLAST_DB -F F -v $maxSubject -b $maxSubject -m8 -e 1e-5 -a $num_cpus";
 			print "now blasting $name sequence\n";
 			system($command);
 		}

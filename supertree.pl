@@ -1,5 +1,6 @@
 #!/usr/bin/perl -w
 use strict;
+use Getopt::Long;
 use Math::Complex;
 use Data::Dumper;
 use XML::Simple;
@@ -16,11 +17,17 @@ use DB_File;
 
 # import all sequcne from all faa files to hash %infile_seq_num;
 
-my $numTrees = 100;
-my $numSeqs = 5;
-my $tempFolder = '/private/tmp/ramdisk1';
-#my $tempFolder = '/tmp/ramdisk';
-#my $tempFolder = '.';
+my ($numTrees, $numSeqs, $tempFolder, $output_filename) = (100, 5, "./supertree","infile");
+
+my $command_line_options = GetOptions(
+					"n=i" => \$numTrees,
+					"s=i" => \$numSeqs,
+					"t=s" => \$tempFolder,
+					"o=s" => \$output_filename
+					);
+
+
+system("mkdir -p $tempFolder");
 
 my $in = (`ls *.faa`);
 $in =~ s/.faa//g;
@@ -34,7 +41,7 @@ foreach my $inFile (@$infiles) {
 }
 
 
-open (OD,">infile") or die;
+open (OD,">$output_filename") or die;
 for (my $tree = 1; $tree <= $numTrees; $tree++) {
 	my $randomHashArray = {};
 	foreach my $inFile (@$infiles) {
@@ -188,7 +195,7 @@ sub GetScore3 {
 			$scoreHash->{"$name1\t$name2"} = 10;
 		}
 	}
-	my $command = "blastall -i $queryFile -d $subjectFile -p blastp -F F -m8";
+	my $command = "blastall -i $queryFile -d $subjectFile -p blastp -F T -m8";
 	my @result =  `$command`;
 	foreach my $input (@result) {
 	#	print $input;
