@@ -27,11 +27,11 @@ $SEED
 y
 EOF
 
-consense << EOF
-outtree
-F
-consensus.txt
-y
-F
-consensus.newick
-EOF
+#consense << EOF
+#outtree
+#F
+#consensus.txt
+#y
+#F
+#consensus.newick
+#EOF

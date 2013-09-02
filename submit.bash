@@ -11,4 +11,4 @@ do
 
 done
 
-qsub -W "depend=afterok${ALLJOBS}" ~/SFT/bin/dofitch.bash
+#qsub -W "depend=afterok${ALLJOBS}" ~/SFT/bin/dofitch.bash
