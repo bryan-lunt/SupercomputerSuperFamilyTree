@@ -1,6 +1,6 @@
 #!/bin/bash
 #PBS -q hotel
-#PBS -lnodes=1:ppn=1,walltime=10:00:00
+#PBS -lnodes=1:ppn=1,walltime=20:00:00
 
 cd $PBS_O_WORKDIR
 

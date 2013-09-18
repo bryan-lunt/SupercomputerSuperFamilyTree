@@ -6,7 +6,7 @@ cd $PBS_O_WORKDIR
 
 export NUM_TREES=${NUM_TREES-'100'}
 export SEED=${SEED-'89'}
+export INPUTSEQFILE=${INPUTSEQFILE-'inputfile.faa'}
 
-
-
-~/SFT/bin/getNcbiSeq.pl -i inputfile.faa -N 16
+set -e
+~/SFT/bin/getNcbiSeq.pl -i ${INPUTSEQFILE} -N ${PBS_NUM_PPN}

@@ -1,14 +1,16 @@
 #!/bin/bash
 
-BLASTJOB=$(qsub ~/SFT/bin/doblast.bash)
+export INPUTSEQFILE=${1}
 
-ALLJOBS=""
-for SUBJOB in $(seq 10)
-do
-	export SUBJOB
-	ALLJOBS+=":"
-	ALLJOBS+=$(qsub -W "depend=afterok:${BLASTJOB}" -V ~/SFT/bin/supertree.bash)
+if [ ! -s ${INPUTSEQFILE} ]
+then
+	echo "No such input file: ${INPUTSEQFILE}"
+	exit 1
+fi
 
-done
+#Begin Submitting Jobs
+BLASTJOB=$(qsub -v INPUTSEQFILE ~/SFT/bin/doblast.bash)
 
-#qsub -W "depend=afterok${ALLJOBS}" ~/SFT/bin/dofitch.bash
+SUPERTREEJOBS=$(qsub -t 1-10 -W "depend=afterok:${BLASTJOB}" -V ~/SFT/bin/supertree.bash)
+
+qsub -W "depend=afterok:${SUPERTREEJOBS}" ~/SFT/bin/dofitch.bash
