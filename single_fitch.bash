@@ -1,24 +1,20 @@
 #!/bin/bash
-#PBS -q hotel
-#PBS -lnodes=1:ppn=1,walltime=20:00:00
 
-cd $PBS_O_WORKDIR
+JOBID=$1
 
-export NUM_TREES=${NUM_TREES-'10'}
-export SEED=${SEED-'89'}
-export SEED=$(( ${SEED} + ${PBS_ARRAYID}*2 ))
+export SEED=$(( 1 + ${JOBID}*2 ))
 
 
 cd faaOut
 
-fitch > fitch_stdout.${PBS_ARRAYID} 2> fitch_stderr.${PBS_ARRAYID} << EOF
-infile${PBS_ARRAYID}
+fitch << EOF
+infile${JOBID}
 F
-outfile${PBS_ARRAYID}
-m
-$NUM_TREES
+outfile${JOBID}
+j
 $SEED
+1
 y
 F
-outtree${PBS_ARRAYID}
+outtree${JOBID}
 EOF
