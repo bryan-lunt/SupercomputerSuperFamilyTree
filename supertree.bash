@@ -9,6 +9,5 @@ export SEED=${SEED-'89'}
 export TMPDIR=${TMPDIR-'/tmp'}
 export SUBJOB=${SUBJOB-"${PBS_ARRAYID}"}
 
-cd faaOut
-~/SFT/bin/supertree.pl -n ${NUM_TREES} -t ${TMPDIR}/supertree${SUBJOB} -o infile${SUBJOB}
+~/SFT/bin/supertree.pl -i faaOut -n ${NUM_TREES} -t ${TMPDIR}/supertree${SUBJOB} -o supertreeOut/infile${SUBJOB}
 

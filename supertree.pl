@@ -17,19 +17,20 @@ use DB_File;
 
 # import all sequcne from all faa files to hash %infile_seq_num;
 
-my ($numTrees, $numSeqs, $tempFolder, $output_filename) = (100, 5, "./supertree","infile");
+my ($numTrees, $numSeqs, $tempFolder, $output_filename, $input_directory) = (100, 5, "./supertree","infile", ".");
 
 my $command_line_options = GetOptions(
 					"n=i" => \$numTrees,
 					"s=i" => \$numSeqs,
 					"t=s" => \$tempFolder,
-					"o=s" => \$output_filename
+					"o=s" => \$output_filename,
+					"i=s" => \$input_directory
 					);
 
 
 system("mkdir -p $tempFolder");
 
-my $in = (`ls *.faa`);
+my $in = (`ls $input_directory/*.faa`);
 $in =~ s/.faa//g;
 my $infiles = [split /\n/,$in];
 

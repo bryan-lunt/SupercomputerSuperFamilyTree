@@ -1,14 +1,13 @@
 #!/bin/bash
 
-JOBID=$1
+INFILENAME=$1
+
+JOBID=$(echo ${INFILENAME} | sed 's/[^0-9]*//g')
 
 export SEED=$(( 1 + ${JOBID}*2 ))
 
-
-cd faaOut
-
 fitch << EOF
-infile${JOBID}
+${INFILENAME}
 F
 outfile${JOBID}
 j
