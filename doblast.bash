@@ -5,8 +5,8 @@
 cd $PBS_O_WORKDIR
 
 export NUM_TREES=${NUM_TREES-'100'}
-export SEED=${SEED-'89'}
 export INPUTSEQFILE=${INPUTSEQFILE-'inputfile.faa'}
 
 set -e
-~/SFT/bin/getNcbiSeq.pl -i ${INPUTSEQFILE} -N ${PBS_NUM_PPN}
+${SFT_BIN}/getNcbiSeq.pl -i ${INPUTSEQFILE} -N ${PBS_NUM_PPN}
+exit $?

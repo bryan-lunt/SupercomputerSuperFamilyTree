@@ -4,11 +4,11 @@
 
 
 cd $PBS_O_WORKDIR
-(cd fitchIn; ~/SFT/bin/splitinfiles.bash ../supertreeOut/*)
+(cd fitchIn; ${SFT_BIN}/splitinfiles.bash ../supertreeOut/*)
 
 cd fitchOut
 
 touch outfile
 touch outtree
 
-ls ../fitchIn/infile* | parallel -j ${PBS_NUM_PPN} ~/SFT/bin/single_fitch.bash 
+ls ../fitchIn/infile* | parallel -j ${PBS_NUM_PPN} ${SFT_BIN}/single_fitch.bash 

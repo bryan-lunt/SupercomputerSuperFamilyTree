@@ -5,9 +5,13 @@
 cd $PBS_O_WORKDIR
 
 export NUM_TREES=${NUM_TREES-'10'}
-export SEED=${SEED-'89'}
-export TMPDIR=${TMPDIR-'/tmp'}
-export SUBJOB=${SUBJOB-"${PBS_ARRAYID}"}
+export SUBJOB=${PBS_ARRAYID}
+export TMPDIR=${TMPDIR-'/tmp'}/supertree${SUBJOB}
+mkdir -p $TMPDIR
 
-~/SFT/bin/supertree.pl -i faaOut -n ${NUM_TREES} -t ${TMPDIR}/supertree${SUBJOB} -o supertreeOut/infile${SUBJOB}
+echo "SUBJOB ${SUBJOB} doing ${NUM_TREES} Trees"
+
+cd faaOut
+
+${SFT_BIN}/supertree.pl -n ${NUM_TREES} -t ${TMPDIR} -o ../supertreeOut/infile${SUBJOB}
 

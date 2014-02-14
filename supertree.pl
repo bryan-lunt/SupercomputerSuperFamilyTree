@@ -6,19 +6,24 @@ use Data::Dumper;
 use XML::Simple;
 use DB_File;
 #########################################################################
-#	Auther : Ming-Ren Yen						#
+#	Author : Ming-Ren Yen						#
 #	Date: 18JAN08							#
 #	UCSD Saier's Lab						#
 #	To make alignment or distance matrix for superfamily tree	#
 #	from random select sequence					#
 #									#
+#	Modified By : Bryan Lunt					#
+#	Date : April 2013 though Feb 2014				#
+#	Modified to work with newer NCBI tools,				#
+#	to be less wasteful of resources (caching files where identical	#
+#	ones get recreated), and to use proper commandline arguments	#
+#	(Instead of requiring the user to modify the script each time.)	#
+#									#
 #########################################################################		
 
 
-# import all sequcne from all faa files to hash %infile_seq_num;
-
+#Read commandline arguments
 my ($numTrees, $numSeqs, $tempFolder, $output_filename, $input_directory) = (100, 5, "./supertree","infile", ".");
-
 my $command_line_options = GetOptions(
 					"n=i" => \$numTrees,
 					"s=i" => \$numSeqs,
@@ -26,10 +31,9 @@ my $command_line_options = GetOptions(
 					"o=s" => \$output_filename,
 					"i=s" => \$input_directory
 					);
-
-
 system("mkdir -p $tempFolder");
 
+# import all sequences from all faa files to hash %infile_seq_num;
 my $in = (`ls $input_directory/*.faa`);
 $in =~ s/.faa//g;
 my $infiles = [split /\n/,$in];
@@ -74,51 +78,6 @@ for (my $tree = 1; $tree <= $numTrees; $tree++) {
 
 }
 close OD;
-
-
-
-#sub MakeMatrix {
-#	my ($infiles, $seqHashRef, $randomHashArray) = @_;
-#	my $arrayData = [];
-#	my $matrixTemp = [];
-#	my $numFiles = (@$infiles);
-#
-#	push (@$matrixTemp, "      $numFiles\n");
-#	for (my $i = 0; $i < $numFiles; $i++) {
-#		my $outname = "$infiles->[$i]         ";
-#		push (@$matrixTemp, substr($outname, 0, 10));
-#               SeqToFile("$tempFolder/$infiles->[$i].subject", $seqHashRef->{$infiles->[$i]}, $randomHashArray->{$infiles->[$i]});
-#              system ("formatdb -i $tempFolder/$infiles->[$i].subject -p T -l /dev/null/log");
-#             for (my $j = 0; $j < $numFiles; $j++) {
-#    #                    if ($i < $j) {
-#                                print '.';
-#                                SeqToFile("$tempFolder/$infiles->[$j].query", $seqHashRef->{$infiles->[$j]}, $randomHashArray->{$infiles->[$j]});
-#                                my $averScore = GetScore3("$tempFolder/$infiles->[$j].query", "$tempFolder/$infiles->[$i].subject", $randomHashArray->{$infiles->[$j]}, $randomHashArray->{$infiles->[$i]});
-#                                my $middle = 1;
-#                                $arrayData->[$i][$j] = sprintf("%.6f", ($averScore));
-#				push (@$matrixTemp, "  $arrayData->[$i][$j]");
-#                                unlink("$tempFolder/$infiles->[$j].query");
-#                        } elsif ($i > $j) {
-#				push (@$matrixTemp, "  $arrayData->[$j][$i]");
-#                        } else {
-#				push (@$matrixTemp, "  0.000000");
-#                        }
-#                }
-#		push (@$matrixTemp, "\n");
-#                print "\n";
-#                unlink ("$tempFolder/$infiles->[$i].subject.phr");
-#                unlink ("$tempFolder/$infiles->[$i].subject.psq");
-#                unlink ("$tempFolder/$infiles->[$i].subject.pin");
-#                unlink ("$tempFolder/$infiles->[$i].subject");
-#        }
-#	push (@$matrixTemp, "\n");
-#        print "\n";
-#	return $matrixTemp;
-#
-#
-#}
-
-
 
 
 
