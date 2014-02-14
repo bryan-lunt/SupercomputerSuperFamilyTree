@@ -68,6 +68,7 @@ for (my $tree = 1; $tree <= $numTrees; $tree++) {
 	for (my $i = 0; $i < $numFiles; $i++) {
 	#	print "$infiles->[$i]\n";
 		my $outname = "$infiles->[$i]         ";
+		$outname =~ s/[^\/]*\///;#Remove the input directory name
 		print OD substr($outname, 0, 10);
 		for (my $j = 0; $j < $numFiles; $j++) {
 			print OD "  $arrayData->[$i][$j]";
