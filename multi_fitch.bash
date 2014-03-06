@@ -12,3 +12,12 @@ touch outfile
 touch outtree
 
 ls ../fitchIn/infile* | parallel -j ${PBS_NUM_PPN} ${SFT_BIN}/single_fitch.bash 
+
+cd $PBS_O_WORKDIR 
+mkdir -p consensus
+cat fitchOut/outtree* > consensus/intree
+
+cd consensus
+consensus << EOF
+y
+EOF
