@@ -9,10 +9,10 @@ You will have to alter things like the queue and requested resources to suit you
 
 These programs and scripts require the following:
 
-PERL (Probably with Bio-Perl)
-gnu parallel
-PHYLIP
-ncbi BLAST
+* PERL (Probably with Bio-Perl)
+* gnu parallel
+* PHYLIP
+* ncbi BLAST
 
 The modified getNcbiSeq.pl program needs to know where your BLAST nr database is installed, so you may have to alter doblast.bash
 
