@@ -295,7 +295,7 @@ sub GetInputSeqHashRef {
 			$currentName = $1;
 			if (length $currentName > 10) {
 				print "Sequence title $currentName is too long, it can not be longer then 10 characters!! (A limitation of PHYLIP later in the pipeline.)\n";
-				exit;
+				exit 1;
 			}
 			$seqCount->{$currentName}++;
 		}
