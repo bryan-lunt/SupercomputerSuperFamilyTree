@@ -5,6 +5,16 @@ The Super Family Tree programs from the Saier Lab, fixed and setup to run on PBS
 
 I DO NOT ENDORSE THIS PROGRAM SCIENTIFICALLY.
 ============================================
+It is provided as-is with no warrantee whatsoever, it is not fit for any purpose.
+In places where it is not possible for a developer to provide a program with no warrantee, you are forbidden to use it at all.
+The original, unmodified (more broken) programs may each have different licenses. Please check the individual scripts for licensing headers.
+The developers of this version disavow any responsibility for the scientific outcomes of running these programs, including but not limited to:
+* Incorrect results
+* Becoming a scientific laughing-stock
+* Being black-balled from scientific conferences
+* End of bio-* career
+* Death or Dismemberment
+
 
 
 These scripts expect to be in a PBS based batch environment.
