@@ -18,6 +18,6 @@ mkdir -p consensus
 cat fitchOut/outtree* > consensus/intree
 
 cd consensus
-consensus << EOF
+consense << EOF
 y
 EOF
