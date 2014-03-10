@@ -2,6 +2,7 @@
 #PBS -lnodes=1:ppn=8,walltime=10:00:00
 #PBS -q hotel
 
+source ${SFT_BIN}/SETTINGS.sh
 
 cd $PBS_O_WORKDIR
 (cd fitchIn; ${SFT_BIN}/splitinfiles.bash ../supertreeOut/*)
