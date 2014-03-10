@@ -15,6 +15,7 @@ then
 	exit 1
 fi
 
+set -e
 mkdir -p supertreeOut
 mkdir -p fitchIn
 mkdir -p fitchOut
@@ -26,6 +27,6 @@ export PBS_O_WORKDIR=${PWD}
 #Begin Running Jobs
 ${SFT_BIN}/doblast.bash
 
-parallel 'PBS_ARRAYID={#}; ${SFT_BIN}/supertree.bash' ::: $(seq 1 10)
+parallel --record-env 'PBS_ARRAYID={#}; ${SFT_BIN}/supertree.bash' ::: $(seq 1 10)
 
 ${SFT_BIN}/multi_fitch.bash
