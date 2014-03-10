@@ -7,6 +7,8 @@ SCRIPT_ABS_DIR=$(dirname ${SCRIPT_ABS_PATH})
 
 export SFT_BIN=${SCRIPT_ABS_DIR}
 
+source ${SFT_BIN}/SETTINGS.sh
+
 export INPUTSEQFILE=${1}
 
 if [ ! -s ${INPUTSEQFILE} ]
@@ -23,11 +25,10 @@ touch fitchOut/outfile
 touch fitchOut/outtree
 
 export PBS_O_WORKDIR=${PWD}
-export PBS_NUM_PPN=8 #later on, try to figure out how to make this autodetected
 
 #Begin Running Jobs
 ${SFT_BIN}/doblast.bash
 
-parallel -j ${PBS_NUM_PPN} --env SFT_BIN,PBS_O_WORKDIR,PBS_NUM_PPN 'export PBS_ARRAYID={#}; ${SFT_BIN}/supertree.bash' ::: $(seq 1 10)
+parallel -j ${PBS_NUM_PPN} --env SFT_BIN,PBS_O_WORKDIR 'export PBS_ARRAYID={#}; ${SFT_BIN}/supertree.bash' ::: $(seq 1 10)
 
 ${SFT_BIN}/multi_fitch.bash
