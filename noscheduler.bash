@@ -28,6 +28,6 @@ export PBS_NUM_PPN=8 #later on, try to figure out how to make this autodetected
 #Begin Running Jobs
 ${SFT_BIN}/doblast.bash
 
-parallel --record-env 'PBS_ARRAYID={#}; ${SFT_BIN}/supertree.bash' ::: $(seq 1 10)
+parallel -j ${PBS_NUM_PPN} --env SFT_BIN,PBS_O_WORKDIR,PBS_NUM_PPN 'export PBS_ARRAYID={#}; ${SFT_BIN}/supertree.bash' ::: $(seq 1 10)
 
 ${SFT_BIN}/multi_fitch.bash
