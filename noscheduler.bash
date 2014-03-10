@@ -23,6 +23,7 @@ touch fitchOut/outfile
 touch fitchOut/outtree
 
 export PBS_O_WORKDIR=${PWD}
+export PBS_NUM_PPN=8 #later on, try to figure out how to make this autodetected
 
 #Begin Running Jobs
 ${SFT_BIN}/doblast.bash
