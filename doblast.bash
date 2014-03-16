@@ -13,8 +13,13 @@ export INPUTSEQFILE=${INPUTSEQFILE-'inputfile.faa'}
 #Rename sequences so that they have names short enough to be accepted by PHYLIP.
 awk 'START {id=0;} /^>/ {id++; print ">seq_"id,$1 >"rename.txt"; print ">seq_"id; } !/^>/ {print $0; }' ${INPUTSEQFILE} > blast_input.faa
 #Creates a file "rename.txt", we will need this to rename the sequences back at the end
-
+sed 's/>//g' rename.txt > rename.subs
+mv rename.subs rename.txt
 
 set -e
 ${SFT_BIN}/getNcbiSeq.pl -d ${SFT_BLASTDB} -i blast_input.faa -N ${PBS_NUM_PPN}
-exit $?
+
+if [ -f groups.txt ]
+then
+	bash ${SFT_BIN}/group.bash
+fi
