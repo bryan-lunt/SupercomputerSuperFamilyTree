@@ -22,3 +22,7 @@ cd consensus
 consense << EOF
 y
 EOF
+
+#name the sequences back in the tree.
+sed 's/>//g ; s/\./\\./g' rename.txt | awk '{print "s/"$1"/"$2"/g";}' > rename.sed
+sed -f rename.sed consensus/outtree > FINAL_CONSENSUS_TREE.newick
