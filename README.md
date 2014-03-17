@@ -48,5 +48,3 @@ These programs and scripts require the following:
 * ncbi BLAST : ftp://ftp.ncbi.nlm.nih.gov/blast/executables/release/LATEST/blast-2.2.26-x64-linux.tar.gz
 * ncbi nr database for BLAST : ftp://ftp.ncbi.nih.gov/blast/db/FASTA/nr.gz
 
-The modified getNcbiSeq.pl program needs to know where your BLAST nr database is installed, so you will have to alter SETTINGS.sh
-
