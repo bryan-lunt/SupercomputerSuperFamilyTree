@@ -18,7 +18,7 @@ SFT1
 - Copy your intput file there. (Use a descriptive name, avoid "blast_input.faa")
 - cd to that directory
 - type: /whereverer/you/installed/SSFT/submit.bash INPUTFILE.faa
-	Where INPUTFILE.faa is the path to your input file.
+	(Where INPUTFILE.faa is the path to your input file.)
 
 The scripts will submit all necessary jobs with an appropriate dependency graph.
 
@@ -42,7 +42,7 @@ To use the simple generator:
 - cd to that directory
 - type: /whereverer/you/installed/SSFT/simple_groupgen.bash INPUTFILE.faa
 - type: /whereverer/you/installed/SSFT/submit.bash INPUTFILE.faa
-        Where INPUTFILE.faa is the path to your input file.
+        (Where INPUTFILE.faa is the path to your input file.)
 
 
 Leaves will be named after the groups.
