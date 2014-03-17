@@ -51,7 +51,7 @@ GROUPING
 ========
 
 To create custom groups, in the directory that you will run SFT in, you must create a file named "groups.txt" that lists group membership.
-Each line of this file has the following format:
+Each line of this file has the following format (without leading indentation):
 
 		<sequence name> <group name>
 
