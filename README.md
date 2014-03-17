@@ -3,12 +3,34 @@ SupercomputerSuperFamilyTree
 
 The Super Family Tree programs from the Saier Lab, fixed and setup to run on PBS based supercomputers.
 
-I DO NOT ENDORSE THIS PROGRAM SCIENTIFICALLY.
-============================================
-It is provided as-is with no warrantee whatsoever, it is not fit for any purpose.
-In places where it is not possible for a developer to provide a program with no warrantee, you are forbidden to use it at all.
-The original, unmodified (more broken) programs may each have different licenses. Please check the individual scripts for licensing headers.
-The developers of this version disavow any responsibility for the scientific outcomes of running these programs, including but not limited to:
+This protocols was originally described in the papers:
+
+http://dx.doi.org/10.1007%2F978-1-60761-700-6_3
+and
+http://dx.doi.org/10.1159/000334611
+
+Those programs relied on the now-defunct NCBI BLAST web-service. (getNcbiSeq.pl)
+To maintain scientific compatibility with previous versions of SFT, this version uses a local installation of BLAST, rather than moving to one of the new services.
+
+
+
+
+
+
+License
+=======
+
+The original files "getNcbiSeq.pl" and "supertree.pl" were downloaded from: http://www.tcdb.org/labsoftware.php .
+
+They appear to be provided with no license, but as downloading is encouraged, this is assumed to be "fair use."
+
+Modifications to these scripts, and the rest of the code in this project are licensed under the GNU GPL version 3.
+This license is provided in the flie "gpl-3.0.txt", or can be downloaded from http://www.gnu.org/licenses/gpl-3.0.txt
+
+
+(No) Scientific Endorsement by Updating Author
+---------------------------------------------
+In addition to the above license, governing the software itself, the developers of this version disavow any responsibility for the scientific outcomes of running these programs, including but not limited to:
 * Incorrect results
 * Becoming a scientific laughing-stock
 * Being black-balled from scientific conferences
