@@ -53,13 +53,13 @@ GROUPING
 To create custom groups, in the directory that you will run SFT in, you must create a file named "groups.txt" that lists group membership.
 Each line of this file has the following format:
 
-<sequence name> <group name>
+		<sequence name> <group name>
 
 For example:
 
-myFirstSequenceWithAnArbitrarilyLongName myFirstGroup
-mySecondSequence myFirstGroup
-sequence_3 group2
+		myFirstSequenceWithAnArbitrarilyLongName myFirstGroup
+		mySecondSequence myFirstGroup
+		sequence_3 group2
 
 
 Will produce two groups; "myFirstGroup" and "group2", with two sequences in the former, and one in the latter.
